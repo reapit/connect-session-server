@@ -1,12 +1,12 @@
-import { ReapitConnectServerSession } from './'
-import { mockTokenResponse, mockServerInitializers, createMockToken } from './__mocks__/session'
-import axios from 'axios'
-
 jest.mock('idtoken-verifier', () => ({
   decode: (token: string) => {
     return JSON.parse(token)
   },
 }))
+
+import { ReapitConnectServerSession } from './'
+import { mockTokenResponse, mockServerInitializers, createMockToken } from './__mocks__/session'
+const axios = require('axios')
 
 jest.mock('axios', () => ({
   post: jest.fn(),

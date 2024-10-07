@@ -1,11 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2018",
     "typeRoots": ["./src/core/definitions.d.ts", "node_modules/@types", "../../node_modules/@types"],
     "baseUrl": "./",
     "sourceRoot": "/",
+    "sourceMap": true,
     "paths": {
       "@reapit/utils-nest": ["../utils-nest/src"]
     },

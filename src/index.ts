@@ -1,4 +1,4 @@
-import axios from 'axios'
+const axios = require('axios')
 import { jwtDecode } from 'jwt-decode'
 
 export interface CoginitoSession {
