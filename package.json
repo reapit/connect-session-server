@@ -7,8 +7,9 @@
     "server",
     "connect-session"
   ],
-  "version": "1.0.0",
-  "main": "src/index.ts",
+  "version": "1.2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "homepage": "https://github.com/reapit/foundations#readme",
   "bugs": {
     "url": "https://github.com/reapit/foundations/issues"
