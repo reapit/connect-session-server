@@ -8,6 +8,9 @@ export default defineConfig({
     target: 'node18',
     outDir: 'dist',
     clean: true,
+    dts: true,
+    format: ['cjs', 'esm'],
+    sourcemap: true,
     minify: process.env.NODE_ENV === 'production',
     esbuildOptions: (opts) => {
       opts.resolveExtensions = ['.ts', '.mjs', '.js'];
