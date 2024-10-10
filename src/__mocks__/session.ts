@@ -1,10 +1,8 @@
-import { ReapitConnectServerSessionInitializers, CoginitoSession } from '../'
+import { ReapitConnectServerSessionInitializers, Session } from '../types'
 import { encode } from 'base-64'
 
 export const createMockToken = (token: { [s: string]: any } | string): string =>
-  `${encode('{}')}.${encode(typeof token === 'string' ? token : JSON.stringify(token))}.${encode(
-    '{}',
-  )}`
+  `${encode('{}')}.${encode(typeof token === 'string' ? token : JSON.stringify(token))}.${encode('{}')}`
 
 export const mockLoginIdentity = {
   email: 'name@mail.com',
@@ -30,7 +28,7 @@ export const mockServerInitializers: ReapitConnectServerSessionInitializers = {
   connectClientSecret: 'SOME_SECRET',
 }
 
-export const mockTokenResponse: CoginitoSession = {
+export const mockTokenResponse: Session = {
   access_token: createMockToken({
     exp: Math.round(new Date().getTime() / 1000) + 360, // time now + 6mins - we refresh session if expiry within 5mins
   }),
