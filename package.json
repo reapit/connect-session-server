@@ -1,13 +1,12 @@
 {
   "name": "@reapit/connect-session-server",
-  "packageManager": "yarn@4.0.1",
   "description": "Server OAuth Flow for Reapit Connect",
   "keywords": [
     "reapit-connect",
     "server",
     "connect-session"
   ],
-  "version": "1.2.2",
+  "version": "1.3.2",
   "files": [
     "dist",
     "src/tests/badges"
