@@ -45,7 +45,7 @@
     "build": "tsup",
     "lint": "eslint --cache --ext=ts,js src",
     "test": "cross-env jest --watch --colors",
-    "check": "tsc --noEmit --skipLibCheck",
+    "checkTypes": "tsc --noEmit --skipLibCheck",
     "release": "echo '...skipping...'",
     "deploy": "echo '...skipping...'",
     "publish": "yarn npm publish --access public",
