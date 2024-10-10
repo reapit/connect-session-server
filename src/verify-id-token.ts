@@ -1,6 +1,6 @@
-import IdTokenVerifier from 'idtoken-verifier';
-import { jwtDecode } from 'jwt-decode';
-import { Claim, DecodedToken, LoginIdentity } from './types';
+import IdTokenVerifier from 'idtoken-verifier'
+import { jwtDecode } from 'jwt-decode'
+import { Claim, DecodedToken, LoginIdentity } from './types'
 
 /**
  * This method will verify the incoming token, check whether the token is expired and return the login identity if valid
@@ -8,9 +8,7 @@ import { Claim, DecodedToken, LoginIdentity } from './types';
  * @param token IdToken from client
  * @returns LoginIdentity
  */
-export const verifyIdToken = async (
-  token: string,
-): Promise<LoginIdentity | undefined> => {
+export const verifyIdToken = async (token: string): Promise<LoginIdentity | undefined> => {
   try {
     const decodedToken = jwtDecode<DecodedToken<any>>(token)
     const aud: string | string[] = decodedToken.aud
@@ -30,8 +28,7 @@ export const verifyIdToken = async (
       }),
     )) as Claim
 
-    if (claim.token_use !== 'id')
-      throw new Error('Id verification claim is not an id token');
+    if (claim.token_use !== 'id') throw new Error('Id verification claim is not an id token')
 
     return {
       name: claim['name'],
@@ -45,11 +42,7 @@ export const verifyIdToken = async (
       orgName: claim['custom:reapit:orgName'] || null,
       orgId: claim['custom:reapit:orgId'] || null,
       offGroupIds: claim['custom:reapit:offGroupIds'] || null,
-      offGrouping:
-        claim['custom:reapit:offGrouping'] &&
-        claim['custom:reapit:offGrouping'] === 'true'
-          ? true
-          : false,
+      offGrouping: claim['custom:reapit:offGrouping'] && claim['custom:reapit:offGrouping'] === 'true' ? true : false,
       offGroupName: claim['custom:reapit:offGroupName'] || null,
       officeId: claim['custom:reapit:officeId'] || null,
       orgProduct: claim['custom:reapit:orgProduct'] || null,

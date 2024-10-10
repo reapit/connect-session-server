@@ -1,10 +1,6 @@
-const axios = require('axios');
-import { jwtDecode } from 'jwt-decode';
-import {
-  CoginitoAccess,
-  DecodedToken,
-  ReapitConnectServerSessionInitializers,
-} from './types';
+const axios = require('axios')
+import { jwtDecode } from 'jwt-decode'
+import { CoginitoAccess, DecodedToken, ReapitConnectServerSessionInitializers } from './types'
 
 export class ReapitConnectServerSession {
   private readonly connectOAuthUrl: string
@@ -12,11 +8,7 @@ export class ReapitConnectServerSession {
   private readonly connectClientSecret: string
   private accessToken: string | null
 
-  constructor({
-    connectClientId,
-    connectClientSecret,
-    connectOAuthUrl,
-  }: ReapitConnectServerSessionInitializers) {
+  constructor({ connectClientId, connectClientSecret, connectOAuthUrl }: ReapitConnectServerSessionInitializers) {
     // Instantiate my private variables from either local storage or from the constructor params
     this.connectOAuthUrl = connectOAuthUrl
     this.connectClientId = connectClientId
@@ -29,7 +21,7 @@ export class ReapitConnectServerSession {
   private get accessTokenExpired() {
     if (this.accessToken) {
       const decoded = jwtDecode<DecodedToken<CoginitoAccess>>(this.accessToken)
-      const expiry = decoded['exp'];
+      const expiry = decoded['exp']
       // 5mins to allow for clock drift
       const fiveMinsFromNow = Math.round(new Date().getTime() / 1000) + 300
       return expiry ? expiry < fiveMinsFromNow : true
@@ -41,9 +33,7 @@ export class ReapitConnectServerSession {
   // See: https://docs.aws.amazon.com/cognito/latest/developerguide/token-endpoint.html
   private async connectGetAccessToken(): Promise<string | void> {
     try {
-      const base64Encoded = Buffer.from(
-        `${this.connectClientId}:${this.connectClientSecret}`,
-      ).toString('base64');
+      const base64Encoded = Buffer.from(`${this.connectClientId}:${this.connectClientSecret}`).toString('base64')
       const session = await axios.post(
         `${this.connectOAuthUrl}/token`,
         new URLSearchParams({
@@ -65,7 +55,7 @@ export class ReapitConnectServerSession {
       if (session?.data?.access_token) {
         return session.data.access_token
       }
-      throw new Error('No access token returned by Reapit Connect');
+      throw new Error('No access token returned by Reapit Connect')
     } catch (error) {
       console.error('Reapit Connect Token Error', (error as any).message)
     }
@@ -86,7 +76,7 @@ export class ReapitConnectServerSession {
         return accessToken
       }
 
-      throw new Error('No session returned from Reapit Connect');
+      throw new Error('No session returned from Reapit Connect')
     } catch (error) {
       console.error('Reapit Connect Session error', (error as any).message)
     }

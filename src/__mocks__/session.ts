@@ -1,10 +1,8 @@
-import { ReapitConnectServerSessionInitializers, Session } from '../types';
-import { encode } from 'base-64';
+import { ReapitConnectServerSessionInitializers, Session } from '../types'
+import { encode } from 'base-64'
 
 export const createMockToken = (token: { [s: string]: any } | string): string =>
-  `${encode('{}')}.${encode(typeof token === 'string' ? token : JSON.stringify(token))}.${encode(
-    '{}',
-  )}`
+  `${encode('{}')}.${encode(typeof token === 'string' ? token : JSON.stringify(token))}.${encode('{}')}`
 
 export const mockLoginIdentity = {
   email: 'name@mail.com',
@@ -15,13 +13,7 @@ export const mockLoginIdentity = {
   userCode: 'SOME_USER_ID',
   orgName: 'SOME_ORG_NAME',
   orgId: 'SOME_ORG_ID',
-  groups: [
-    'AgencyCloudDeveloperEdition',
-    'OrganisationAdmin',
-    'ReapitUser',
-    'ReapitDeveloper',
-    'ReapitDeveloperAdmin',
-  ],
+  groups: ['AgencyCloudDeveloperEdition', 'OrganisationAdmin', 'ReapitUser', 'ReapitDeveloper', 'ReapitDeveloperAdmin'],
   offGroupIds: 'MKV',
   offGrouping: true,
   offGroupName: 'Cool Office Group',

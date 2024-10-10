@@ -4,13 +4,9 @@ jest.mock('idtoken-verifier', () => ({
   },
 }))
 
-import { ReapitConnectServerSession } from './reapit-connect-server-session';
-import {
-  mockTokenResponse,
-  mockServerInitializers,
-  createMockToken,
-} from './__mocks__/session';
-const axios = require('axios');
+import { ReapitConnectServerSession } from './reapit-connect-server-session'
+import { mockTokenResponse, mockServerInitializers, createMockToken } from './__mocks__/session'
+const axios = require('axios')
 
 jest.mock('axios', () => ({
   post: jest.fn(),
@@ -26,10 +22,10 @@ describe('ReapitConnectServerSession', () => {
     const session = getSession()
     expect(session instanceof ReapitConnectServerSession).toBe(true)
     expect(session.connectAccessToken).toBeDefined()
-  });
+  })
 
   it('should fetch a new session from endpoint then return the same session without calling endpoint', async () => {
-    (axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
+    ;(axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
 
     const session = getSession()
 
@@ -42,13 +38,13 @@ describe('ReapitConnectServerSession', () => {
 
     expect(axios.post).toHaveBeenCalledTimes(1)
     expect(cachedConnectSession).toEqual(mockTokenResponse.access_token)
-  });
+  })
 
   it('should make a second call and fetch a new session from endpoint if a cached session has expired', async () => {
     const expiringAccessToken = createMockToken({
       exp: Math.round(new Date().getTime() / 1000), // time now, token is expiring
-    });
-    (axios.post as jest.Mock).mockReturnValueOnce({
+    })
+    ;(axios.post as jest.Mock).mockReturnValueOnce({
       data: {
         ...mockTokenResponse,
         access_token: expiringAccessToken,
@@ -60,19 +56,19 @@ describe('ReapitConnectServerSession', () => {
     const connectSession = await session.connectAccessToken()
 
     expect(axios.post).toHaveBeenCalledTimes(1)
-    expect(connectSession).toEqual(expiringAccessToken);
-    (axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
+    expect(connectSession).toEqual(expiringAccessToken)
+    ;(axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
 
     const cachedConnectSession = await session.connectAccessToken()
 
     expect(axios.post).toHaveBeenCalledTimes(2)
     expect(cachedConnectSession).toEqual(mockTokenResponse.access_token)
-  });
+  })
 
   it('should throw if Reapit Connect returns an error', async () => {
-    const errorSpy = jest.spyOn(console, 'error');
-    const errorMessage = 'I am an error';
-    (axios.post as jest.Mock).mockReturnValueOnce({
+    const errorSpy = jest.spyOn(console, 'error')
+    const errorMessage = 'I am an error'
+    ;(axios.post as jest.Mock).mockReturnValueOnce({
       data: {
         error: errorMessage,
       },
@@ -84,23 +80,20 @@ describe('ReapitConnectServerSession', () => {
 
     expect(axios.post).toHaveBeenCalledTimes(1)
     expect(errorSpy).toHaveBeenCalledTimes(2)
-    expect(errorSpy).toHaveBeenCalledWith(
-      'Reapit Connect Token Error',
-      errorMessage,
-    )
+    expect(errorSpy).toHaveBeenCalledWith('Reapit Connect Token Error', errorMessage)
 
-    expect(connectSession).toBeUndefined();
-    (axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
+    expect(connectSession).toBeUndefined()
+    ;(axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
 
     const cachedConnectSession = await session.connectAccessToken()
 
     expect(axios.post).toHaveBeenCalledTimes(2)
     expect(cachedConnectSession).toEqual(mockTokenResponse.access_token)
-  });
+  })
 
   it('should throw if Reapit Connect does not return a session', async () => {
-    const errorSpy = jest.spyOn(console, 'error');
-    (axios.post as jest.Mock).mockReturnValueOnce({ data: {} })
+    const errorSpy = jest.spyOn(console, 'error')
+    ;(axios.post as jest.Mock).mockReturnValueOnce({ data: {} })
 
     const session = getSession()
 
@@ -108,22 +101,19 @@ describe('ReapitConnectServerSession', () => {
 
     expect(axios.post).toHaveBeenCalledTimes(1)
     expect(errorSpy).toHaveBeenCalledTimes(2)
-    expect(errorSpy).toHaveBeenCalledWith(
-      'Reapit Connect Token Error',
-      'No access token returned by Reapit Connect',
-    )
+    expect(errorSpy).toHaveBeenCalledWith('Reapit Connect Token Error', 'No access token returned by Reapit Connect')
 
-    expect(connectSession).toBeUndefined();
-    (axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
+    expect(connectSession).toBeUndefined()
+    ;(axios.post as jest.Mock).mockReturnValueOnce({ data: mockTokenResponse })
 
     const cachedConnectSession = await session.connectAccessToken()
 
     expect(axios.post).toHaveBeenCalledTimes(2)
     expect(cachedConnectSession).toEqual(mockTokenResponse.access_token)
-  });
+  })
 
   afterEach(() => {
     jest.resetAllMocks()
     window.localStorage.clear()
-  });
+  })
 })

@@ -1,9 +1,9 @@
-import { InvalidTokenError } from "jwt-decode";
-import { verifyIdToken } from "./verify-id-token";
+import { InvalidTokenError } from 'jwt-decode'
+import { verifyIdToken } from './verify-id-token'
 
-const VALID_ID_TOKEN = 'VALID_ID_TOKEN';
-const INVALID_ID_TOKEN = 'INVALID_ID_TOKEN';
-const ACCES_TOKEN = 'ACCESS_TOKEN';
+const VALID_ID_TOKEN = 'VALID_ID_TOKEN'
+const INVALID_ID_TOKEN = 'INVALID_ID_TOKEN'
+const ACCES_TOKEN = 'ACCESS_TOKEN'
 
 jest.mock('jwt-decode', () => ({
   jwtDecode: jest.fn((token) => {
@@ -36,10 +36,12 @@ jest.mock('idtoken-verifier', () => ({
             iss: 'test-iss.reapit.cloud',
             audience: ['test-iss.reapit.cloud'],
           })
+          break
         case INVALID_ID_TOKEN:
-          return callback(null, {})
+          callback(null, {})
+          break
         case ACCES_TOKEN:
-          return callback(null, {
+          callback(null, {
             token_use: 'access',
             iss: 'test-iss.reapit.cloud',
             audience: ['test-iss.reapit.cloud'],
@@ -59,6 +61,7 @@ jest.mock('idtoken-verifier', () => ({
             'custom:reapit:officeId': '',
             'custom:reapit:orgProduct': '',
           })
+          break
       }
     }
   },
@@ -66,14 +69,14 @@ jest.mock('idtoken-verifier', () => ({
 
 describe('verifyToken', () => {
   it('Can verify token', async () => {
-    const loginIdentity = await verifyIdToken('VALID_ID_TOKEN');
+    const loginIdentity = await verifyIdToken('VALID_ID_TOKEN')
 
-    expect(loginIdentity).toHaveProperty('name');
-    expect(loginIdentity).toHaveProperty('email');
-    expect(loginIdentity).toHaveProperty('agencyCloudId');
-    expect(loginIdentity).toHaveProperty('developerId');
-    expect(loginIdentity).toHaveProperty('userCode');
-    expect(loginIdentity).toHaveProperty('orgId');
-    expect(loginIdentity).toHaveProperty('orgName');
+    expect(loginIdentity).toHaveProperty('name')
+    expect(loginIdentity).toHaveProperty('email')
+    expect(loginIdentity).toHaveProperty('agencyCloudId')
+    expect(loginIdentity).toHaveProperty('developerId')
+    expect(loginIdentity).toHaveProperty('userCode')
+    expect(loginIdentity).toHaveProperty('orgId')
+    expect(loginIdentity).toHaveProperty('orgName')
   })
-});
+})
